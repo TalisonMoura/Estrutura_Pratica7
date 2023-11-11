@@ -158,11 +158,12 @@ public class Arvore {
             System.out.print(node.valor + " ");
         }
     }
+    int altura = 0 ;
     private No inserirRecursivo(No node, int valor) {
     if (node == null) {
         return new No(valor);
     }
-        if (valor < node.valor) {
+    if (valor < node.valor) {
         node.esquerda = inserirRecursivo(node.esquerda, valor);
     } else if (valor > node.valor) {
         node.direita = inserirRecursivo(node.direita, valor);
@@ -188,7 +189,7 @@ public class Arvore {
         node.direita = rotacaoDireita(node.direita);
         return rotacaoEsquerda(node);
     }
-
+        altura = getBalance(node);
         return node;
 }
 
@@ -197,6 +198,10 @@ public class Arvore {
             return 0;
         }
         return node.altura;
+    }
+
+    public int getAltura(){
+        return altura;
     }
 
     private int getBalance(No node) {
@@ -232,4 +237,19 @@ public class Arvore {
         return y;
     }
 
+    public boolean isIdenticas(Arvore outraArvore) {
+        return isIdenticasRec(this.raiz, outraArvore.raiz);
+    }
+
+    private boolean isIdenticasRec(No node1, No node2) {
+        if (node1 == null && node2 == null) {
+            return true;
+        }
+        if (node1 != null && node2 != null) {
+            return (node1.valor == node2.valor) &&
+                    isIdenticasRec(node1.esquerda, node2.esquerda) &&
+                    isIdenticasRec(node1.direita, node2.direita);
+        }
+        return false;
+    }
 }
